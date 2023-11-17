@@ -5,7 +5,7 @@ from transformers import WhisperProcessor, WhisperForConditionalGeneration
 class InferlessPythonModel:
     @staticmethod
     def download_audio(audio_url):
-        response = requests.get(url, stream=True)
+        response = requests.get(audio_url, stream=True)
         filename = audio_url.split("/")[-1]
 
         if response.status_code == 200:
