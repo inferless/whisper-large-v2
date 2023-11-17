@@ -26,10 +26,10 @@ class InferlessPythonModel:
         audio_file_path = InferlessPythonModel.download_audio(audio_url)
         audio_array, sampling_rate = librosa.load(audio_file_path, sr=16000)
 
-        input_features = processor(audio_array, sampling_rate=sampling_rate, return_tensors="pt").input_features
+        input_features = self.processor(audio_array, sampling_rate=sampling_rate, return_tensors="pt").input_features
 
-        predicted_ids = model.generate(input_features)
-        transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)
+        predicted_ids = self.model.generate(input_features)
+        transcription = self.processor.batch_decode(predicted_ids, skip_special_tokens=True)
 
         return {"transcribed_output": transcription[0]}
 
