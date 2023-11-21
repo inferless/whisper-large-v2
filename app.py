@@ -6,7 +6,6 @@ from transformers import pipeline
 class InferlessPythonModel:
         
     def initialize(self):
-        def initialize(self):
         self.generator = pipeline(
             "automatic-speech-recognition",
             model="whisper-large-v2",
