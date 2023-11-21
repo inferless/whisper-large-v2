@@ -1,37 +1,22 @@
-import librosa
-import requests
-from transformers import WhisperProcessor, WhisperForConditionalGeneration
+import json
+import numpy as np
+import torch
+from transformers import pipeline
 
 class InferlessPythonModel:
-    @staticmethod
-    def download_audio(audio_url):
-        response = requests.get(audio_url, stream=True)
-        filename = audio_url.split("/")[-1]
-
-        if response.status_code == 200:
-            with open(filename, 'wb') as file:
-                file.write(response.content)
-        else:
-            raise Exception("Error Downloading Audio File")
-
-        return filename
         
     def initialize(self):
-        self.processor = WhisperProcessor.from_pretrained("openai/whisper-large-v2")
-        self.model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-large-v2")
-        self.model.config.forced_decoder_ids = None
+        def initialize(self):
+        self.generator = pipeline(
+            "automatic-speech-recognition",
+            model="whisper-large-v2",
+            device_map="auto",
+        )
 
     def infer(self, inputs):
         audio_url = inputs["audio_url"]
-        audio_file_path = InferlessPythonModel.download_audio(audio_url)
-        audio_array, sampling_rate = librosa.load(audio_file_path, sr=16000)
-
-        input_features = self.processor(audio_array, sampling_rate=sampling_rate, return_tensors="pt").input_features
-
-        predicted_ids = self.model.generate(input_features)
-        transcription = self.processor.batch_decode(predicted_ids, skip_special_tokens=True)
-
-        return {"transcribed_output": transcription[0]}
+        pipeline_output = self.generator(audio_url)
+        return {"transcribed_output": generated_txt}
 
     def finalize(self):
         self.processor = None
