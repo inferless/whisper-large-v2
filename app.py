@@ -8,7 +8,7 @@ class InferlessPythonModel:
     def initialize(self):
         self.generator = pipeline(
             "automatic-speech-recognition",
-            model="openai/whisper-large-v2", chunk_length_s=30, batch_size=20
+            model="openai/whisper-large-v2", chunk_length_s=30, batch_size=20,
             device_map="auto",
         )
 
