@@ -1,7 +1,0 @@
-build:
-  system_packages:
-    - "ffmpeg"
-  python_packages:
-    - "librosa==0.10.1"
-    - "transformers==4.34.1"
-    - "torch==2.1.0"
